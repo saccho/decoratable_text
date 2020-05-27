@@ -9,13 +9,13 @@ class App extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text("DecoratableText Example")),
-        body: _DecoratableTextExamples(),
+        body: DecoratableTextExamples(),
       ),
     );
   }
 }
 
-class _DecoratableTextExamples extends StatelessWidget {
+class DecoratableTextExamples extends StatelessWidget {
   final _linkStyle = TextStyle(color: Colors.blue);
   final _idStyle = TextStyle(color: Colors.amber);
   final _tagStyle = TextStyle(color: Colors.teal);
@@ -49,7 +49,8 @@ class _DecoratableTextExamples extends StatelessWidget {
             ],
           ),
           DecoratableText(
-            text: "You can display decorated url. https://flutter.dev/",
+            text:
+                "You can change the text that matches the pattern. -> https://flutter.dev/",
             decorations: [
               DecorationOption(
                 pattern: TextPattern.url,
@@ -84,7 +85,7 @@ class _DecoratableTextExamples extends StatelessWidget {
           ),
           DecoratableText(
             text:
-                "You can set multiple link options. \nFlutter: https://flutter.dev/ #flutter \nDart: https://dart.dev/ #dart",
+                "You can set multiple decoration options. \nFlutter: https://flutter.dev/ #flutter \nDart: https://dart.dev/ #dart",
             decorations: [
               DecorationOption(
                 pattern: r"#[a-zA-Z0-9_]+",
