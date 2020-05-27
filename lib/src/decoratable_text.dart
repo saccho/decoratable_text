@@ -28,7 +28,7 @@ class DecoratableText extends StatefulWidget {
   /// The decoration Settings.
   final List<DecorationOption> decorations;
 
-  /// Style for non-link text.
+  /// Style for plain text.
   final TextStyle style;
 
   // RichText
