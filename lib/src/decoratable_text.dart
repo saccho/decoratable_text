@@ -1,10 +1,9 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'decoration_option.dart';
 
-class DecoratableText extends StatefulWidget {
+class DecoratableText extends StatelessWidget {
   const DecoratableText({
     Key key,
     @required this.text,
@@ -93,68 +92,54 @@ class DecoratableText extends StatefulWidget {
   final TextHeightBehavior textHeightBehavior;
 
   @override
-  State<StatefulWidget> createState() => _DecoratableTextState();
-}
-
-class _DecoratableTextState extends State<DecoratableText> {
-  final _recognizers = <String, TapGestureRecognizer>{};
-
-  @override
-  void dispose() {
-    for (var recognizer in _recognizers.values) {
-      recognizer.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(children: _buildTextSpans(context)),
-      textAlign: widget.textAlign,
-      textDirection: widget.textDirection,
-      softWrap: widget.softWrap,
-      overflow: widget.overflow,
-      textScaleFactor: widget.textScaleFactor,
-      maxLines: widget.maxLines,
-      locale: widget.locale,
-      strutStyle: widget.strutStyle,
-      textWidthBasis: widget.textWidthBasis,
-      textHeightBehavior: widget.textHeightBehavior,
+      textAlign: textAlign,
+      textDirection: textDirection,
+      softWrap: softWrap,
+      overflow: overflow,
+      textScaleFactor: textScaleFactor,
+      maxLines: maxLines,
+      locale: locale,
+      strutStyle: strutStyle,
+      textWidthBasis: textWidthBasis,
+      textHeightBehavior: textHeightBehavior,
     );
   }
 
   List<InlineSpan> _buildTextSpans(BuildContext context) {
-    final plainTextStyle = widget.style ?? DefaultTextStyle.of(context).style;
-    if (widget.decorations.isEmpty) {
+    final plainTextStyle = style ?? DefaultTextStyle.of(context).style;
+    if (decorations.isEmpty) {
       return [
         TextSpan(
-          text: widget.text,
+          text: text,
           style: plainTextStyle,
         )
       ];
     }
     final patterns = Set<String>();
-    final decorations = <String, DecorationOption>{};
-    for (var decoration in widget.decorations) {
+    final decorationOptions = <String, DecorationOption>{};
+    for (var decoration in decorations) {
       if (patterns.add(decoration.pattern)) {
-        var matches = RegExp(decoration.pattern).allMatches(widget.text);
+        var matches = RegExp(decoration.pattern).allMatches(text);
         for (var match in matches) {
           var matchedText = match.group(0);
-          decorations[matchedText] = decoration;
-          _recognizers[matchedText] = _buildRecognizer(matchedText, decoration);
+          decorationOptions[matchedText] = decoration;
         }
       }
     }
-    final texts = _splitPlainAndLinkText(decorations.keys);
+    final texts = _splitPlainAndLinkText(decorationOptions.keys);
     final textSpans = <InlineSpan>[];
     for (var text in texts) {
-      if (decorations.containsKey(text)) {
+      if (decorationOptions.containsKey(text)) {
         textSpans.add(
-          TextSpan(
-            text: decorations[text].displayText ?? text,
-            style: decorations[text].style ?? plainTextStyle,
-            recognizer: _recognizers[text],
+          _buildDecoratedText(
+            context,
+            text: decorationOptions[text].displayText ?? text,
+            style: decorationOptions[text].style ?? plainTextStyle,
+            decoration: decorationOptions[text],
+            onTap: _tapAction(text, decorationOptions[text]),
           ),
         );
       } else {
@@ -169,20 +154,47 @@ class _DecoratableTextState extends State<DecoratableText> {
     return textSpans;
   }
 
-  TapGestureRecognizer _buildRecognizer(
-      String url, DecorationOption decoration) {
+  InlineSpan _buildDecoratedText(BuildContext context,
+      {String text,
+      TextStyle style,
+      DecorationOption decoration,
+      VoidCallback onTap}) {
+    if (decoration.showRipple) {
+      return WidgetSpan(
+        child: InkWell(
+          child: Text(
+            text,
+            style: style,
+          ),
+          onTap: onTap,
+        ),
+      );
+    } else {
+      return WidgetSpan(
+        child: GestureDetector(
+          child: Text(
+            text,
+            style: style,
+          ),
+          onTap: onTap,
+        ),
+      );
+    }
+  }
+
+  VoidCallback _tapAction(String url, DecorationOption decoration) {
     if (decoration.onTap != null) {
-      return TapGestureRecognizer()..onTap = decoration.onTap;
+      return decoration.onTap;
     } else {
       switch (decoration.tapAction) {
         case TapAction.launchUrl:
-          return TapGestureRecognizer()..onTap = () => _launch(url);
+          return () => _launch(url);
           break;
         case TapAction.launchMail:
-          return TapGestureRecognizer()..onTap = () => _launch("mailto:$url");
+          return () => _launch("mailto:$url");
           break;
         default:
-          return TapGestureRecognizer()..onTap = () {};
+          return () {};
       }
     }
   }
@@ -197,7 +209,6 @@ class _DecoratableTextState extends State<DecoratableText> {
 
   List<String> _splitPlainAndLinkText(Iterable patterns) {
     final joinedPattern = patterns.join("|");
-    return widget.text
-        .split(RegExp("((?<=$joinedPattern)|(?=$joinedPattern))"));
+    return text.split(RegExp("((?<=$joinedPattern)|(?=$joinedPattern))"));
   }
 }

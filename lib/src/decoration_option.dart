@@ -7,6 +7,7 @@ class DecorationOption {
     this.style,
     this.tapAction,
     this.onTap,
+    this.showRipple = false,
   });
 
   /// Pattern of the text to decorate.
@@ -23,6 +24,9 @@ class DecorationOption {
 
   /// Custom callback when tapping the decorated text.
   final VoidCallback onTap;
+
+  /// Whether to show the ripple effect.
+  final bool showRipple;
 }
 
 class TextPattern {
