@@ -130,6 +130,14 @@ class DecoratableText extends StatelessWidget {
         }
       }
     }
+    if (decorationOptions.isEmpty) {
+      return [
+        TextSpan(
+          text: text,
+          style: plainTextStyle,
+        )
+      ];
+    }
     final texts = _splitPlainAndLinkText(decorationOptions.keys);
     final textSpans = <InlineSpan>[];
     for (var text in texts) {
