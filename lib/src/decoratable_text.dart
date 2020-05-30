@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'decoration_option.dart';
 
+@immutable
 class DecoratableText extends StatelessWidget {
   const DecoratableText({
     Key key,
