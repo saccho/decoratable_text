@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+@immutable
 class DecorationOption {
   const DecorationOption({
     @required this.pattern,

@@ -8,7 +8,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("DecoratableText Example")),
+        appBar: AppBar(title: const Text("DecoratableText Example")),
         body: DecoratableTextExamples(),
       ),
     );
@@ -16,9 +16,9 @@ class App extends StatelessWidget {
 }
 
 class DecoratableTextExamples extends StatelessWidget {
-  final _linkStyle = TextStyle(color: Colors.blue);
-  final _idStyle = TextStyle(color: Colors.amber);
-  final _tagStyle = TextStyle(color: Colors.teal);
+  static const _linkStyle = TextStyle(color: Colors.blue);
+  static const _idStyle = TextStyle(color: Colors.amber);
+  static const _tagStyle = TextStyle(color: Colors.teal);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class DecoratableTextExamples extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          DecoratableText(
+          const DecoratableText(
             text: "url: https://flutter.dev/",
             decorations: [
               DecorationOption(
@@ -39,7 +39,7 @@ class DecoratableTextExamples extends StatelessWidget {
               ),
             ],
           ),
-          DecoratableText(
+          const DecoratableText(
             text: "mail: hogehoge@foomail.com",
             decorations: [
               DecorationOption(
@@ -50,7 +50,7 @@ class DecoratableTextExamples extends StatelessWidget {
               ),
             ],
           ),
-          DecoratableText(
+          const DecoratableText(
             text:
                 "You can change the text that matches the pattern. -> https://flutter.dev/",
             decorations: [
@@ -63,7 +63,7 @@ class DecoratableTextExamples extends StatelessWidget {
               ),
             ],
           ),
-          DecoratableText(
+          const DecoratableText(
             text: "@You can set custom patterns.",
             decorations: [
               DecorationOption(
@@ -79,7 +79,7 @@ class DecoratableTextExamples extends StatelessWidget {
                 pattern: r"#[a-zA-Z0-9_]+",
                 style: _tagStyle,
                 onTap: () => Scaffold.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Tapped #SnackBar"),
                   ),
                 ),
@@ -87,7 +87,7 @@ class DecoratableTextExamples extends StatelessWidget {
               ),
             ],
           ),
-          DecoratableText(
+          const DecoratableText(
             text:
                 "You can set multiple decoration options. \nFlutter: https://flutter.dev/ #flutter \nDart: https://dart.dev/ #dart",
             decorations: [
