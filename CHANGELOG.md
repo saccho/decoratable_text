@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Fix useless text splitting when decorationOptions is empty
+
 ## 0.2.0
 
 - Add decoration option for ripple effect
