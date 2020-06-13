@@ -51,6 +51,7 @@ const DecoratableText(
 - Decorate url text and change url display
 
 ``` dart
+...
 const DecoratableText(
   text:
       "You can change the text that matches the pattern. -> https://flutter.dev/",
@@ -64,6 +65,7 @@ const DecoratableText(
     ),
   ],
 ),
+...
 ```
 
 <img src="https://user-images.githubusercontent.com/36199796/84576460-dc1e8c80-adef-11ea-955e-ab48ee292540.gif" width="320px">
@@ -71,6 +73,7 @@ const DecoratableText(
 - Decorate any text
 
 ``` dart
+...
 DecoratableText(
   text: "You can set custom tap actions. #SnackBar",
   decorations: [
@@ -86,6 +89,7 @@ DecoratableText(
     ),
   ],
 ),
+...
 ```
 
 <img src="https://user-images.githubusercontent.com/36199796/84576371-3bc86800-adef-11ea-8378-b7854c96e0a1.gif" width="320px">
@@ -93,20 +97,22 @@ DecoratableText(
 - Decorate multiple texts
 
 ``` dart
+...
 const DecoratableText(
   text:
       "You can set multiple decoration options. \nFlutter: https://flutter.dev/ #flutter \nDart: https://dart.dev/ #dart",
   decorations: [
     DecorationOption(
       pattern: r"#[a-zA-Z0-9_]+",
-      style: _tagStyle,
+      style: TextStyle(color: Colors.teal),
     ),
     DecorationOption(
       pattern: TextPattern.url,
-      style: _linkStyle,
+      style: TextStyle(color: Colors.blue),
       tapAction: TapAction.launchUrl,
       showRipple: true,
     ),
   ],
 ),
+...
 ```
